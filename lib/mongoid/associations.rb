@@ -138,6 +138,7 @@ module Mongoid # :nodoc:
       def embeds_many(name, options = {}, &block)
         associate(Associations::EmbedsMany, optionize(name, options, nil, &block))
         unless name == :versions
+          after_create {|doc| doc.unmemoize(name) }
           after_update do |document|
             document.update_embedded(name)
           end
@@ -172,6 +173,7 @@ module Mongoid # :nodoc:
         associate(type, opts)
         add_builder(type, opts)
         add_creator(type, opts)
+        after_create {|doc| doc.unmemoize(name) }
         after_update do |document|
           document.update_embedded(name)
         end

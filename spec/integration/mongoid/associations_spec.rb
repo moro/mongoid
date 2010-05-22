@@ -27,6 +27,10 @@ describe Mongoid::Associations do
         addresses.size.should == 1
         addresses.first.should == @address_one
       end
+
+      it "associated child shold not be new record" do
+        @person.addresses.first.should_not be_new_record
+      end
     end
 
     context "when defined on a has_one" do
