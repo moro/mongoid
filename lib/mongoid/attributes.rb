@@ -28,7 +28,8 @@ module Mongoid #:nodoc:
         return super unless @attributes.has_key?(attr.reader)
         if attr.writer?
           # "args.size > 1" allows to simulate 1.8 behavior of "*args"
-          @attributes[attr.reader] = (args.size > 1) ? args : args.first
+          new_value = (args.size > 1) ? args : args.first
+          modify(attr.reader, @attributes[attr.reader], new_value)
         else
           @attributes[attr.reader]
         end

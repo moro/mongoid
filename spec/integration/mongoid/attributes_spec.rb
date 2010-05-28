@@ -19,4 +19,18 @@ describe Mongoid::Attributes do
 
   end
 
+  context "modifying method_missing attribute with existing record" do
+    before do
+      @person = Person.create(:score => nil, :ssn => "555-66-7777", :twitter => "@mongodb")
+      @person.twitter = "@mongoid"
+      @person.save
+    end
+
+    it {
+      from_db = Person.find(@person.id)
+      from_db.twitter.should == "@mongoid"
+    }
+
+  end
+
 end
