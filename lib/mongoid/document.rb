@@ -23,6 +23,7 @@ module Mongoid #:nodoc:
       # Perform default behavior but mark the hierarchy as being hereditary.
       def inherited(subclass)
         super(subclass)
+        @_type = nil
         self.hereditary = true
       end
 

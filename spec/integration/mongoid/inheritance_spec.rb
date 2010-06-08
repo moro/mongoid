@@ -24,6 +24,14 @@ describe Mongoid::Document do
       attributes["_id"].should == @browser.id
     end
 
+    context "when new subclass is defined and created it's instance after loaded other subclass types" do
+      before do
+        Browser.count
+        Opera = Class.new(Browser)
+        Opera.create(:version => 2, :name => "Testy")
+      end
+      it { Browser.count.should == 2 }
+    end
   end
 
   context "when document is a subclass of a subclass" do
