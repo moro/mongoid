@@ -41,8 +41,13 @@ module Mongoid # :nodoc:
 
       # Update the one-to-one relational association for the name.
       def update_association(name)
-        association = send(name)
-        association.save if new_record? && !association.nil?
+        # check memoize condition, means loaded at least once.
+        if instance_variable_defined?("@#{name}")
+          association = send(name)
+          association.save if new_record? && !association.nil?
+        else
+          true
+        end
       end
 
       # Updates all the one-to-many relational associations for the name.
